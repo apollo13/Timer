@@ -15,46 +15,48 @@ public class MainActivity extends Activity {
 	private Boolean running = false;
 	private long timeout = 0;
 	private EditText editText;
-	
+	private Ringtone ringer;
+
+
 	private Runnable runnable = new Runnable() {
 		@Override
 		public void run() {
 			if (!running) {
 				return;
 			}
-			Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-	        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-	        r.play();		
+	        ringer.play();
 			handler.postDelayed(this, timeout);
 		}
-	};	
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		editText = (EditText) findViewById(R.id.input);
+		Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+		ringer = RingtoneManager.getRingtone(getApplicationContext(), notification);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return true;
 	}
-	
+
 	public void onStartClicked(View v) {
 		if (!running) {
-		 	timeout = 1000 * Long.valueOf(editText.getText().toString());
 			running = true;
+			timeout = 1000 * Long.valueOf(editText.getText().toString());
 			handler.postDelayed(runnable, timeout);
 		}
 	}
-	
+
 	public void onStopClicked(View v) {
 		if (running) {
-			handler.removeCallbacks(runnable);
 			running = false;
+			handler.removeCallbacks(runnable);
 		}
 	}
-	
+
 
 }
