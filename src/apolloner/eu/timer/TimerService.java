@@ -25,7 +25,7 @@ public class TimerService extends Service {
 			if (!running) {
 				return;
 			}
-	        ringer.play();
+			ringer.play();
 			handler.postDelayed(this, timeout);
 		}
 	};
