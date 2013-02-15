@@ -56,7 +56,9 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		Intent intent = new Intent(this, TimerService.class);
-		stopService(intent);		
+		if (isFinishing()) {
+			Intent intent = new Intent(this, TimerService.class);
+			stopService(intent);
+		}
 	}
 }
